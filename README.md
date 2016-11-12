@@ -1,1 +1,1 @@
-# Back-End-Scala
+# Back-End-Scala Registro de Actividades
