@@ -5,8 +5,10 @@
 # Home page
 GET     /                           controllers.Application.index
 GET     /docentes                   controllers.DocenteController.consultarDocentes
+GET     /docenteOrden               controllers.DocenteController.consultarDocentesOrden
 GET     /docente/:nb_doc_id         controllers.DocenteController.consultarDocente(nb_doc_id: Int)
 
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
