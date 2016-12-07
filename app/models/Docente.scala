@@ -7,7 +7,7 @@ import play.api.Play.current
 /**
   * Created by ubuntu on 17/10/16.
   */
-case class Docente(var nb_doc_id: Int, var vr_doc_celular: String, var vr_doc_nombre: String, var vr_doc_apellido: String, var vr_cur_nombre: String)
+case class Docente(var nb_doc_id: Int, var vr_doc_celular: String, var vr_doc_nombre: String, var vr_doc_apellido: String, var cantidad_cursos: Int)
 case class Profesor(var nb_doc_id: Int, var vr_doc_celular: String, var vr_doc_nombre: String, var vr_doc_apellido: String)
 
 
@@ -41,7 +41,7 @@ class Docentes {
     try {
       val stmt = conn.createStatement
 
-      val rs = stmt.executeQuery("SELECT nb_doc_id,vr_doc_celular,vr_doc_nombre,vr_doc_apellido,tb_curso.vr_cur_nombre FROM tb_docente INNER JOIN tb_docente_tb_grupos ON nb_doc_id=tb_docente_nb_doc_id INNER JOIN tb_curso_tb_grupos ON tb_docente_tb_grupos.tb_grupos_idgrupo=tb_curso_tb_grupos.tb_grupos_idgrupo INNER JOIN tb_curso ON tb_curso_nb_cur_id=nb_cur_id WHERE active=TRUE;")
+      val rs = stmt.executeQuery("SELECT nb_doc_id,vr_doc_celular,vr_doc_nombre,vr_doc_apellido,COUNT (tb_curso.vr_cur_nombre) AS \"cantidad_cursos\" FROM tb_docente INNER JOIN tb_docente_tb_grupos ON nb_doc_id=tb_docente_nb_doc_id INNER JOIN tb_curso_tb_grupos ON tb_docente_tb_grupos.tb_grupos_idgrupo=tb_curso_tb_grupos.tb_grupos_idgrupo INNER JOIN tb_curso ON tb_curso_nb_cur_id=nb_cur_id WHERE active=TRUE GROUP BY tb_docente.nb_doc_id;")
 
       var docentes: Seq[Docente] = Seq.empty
 
@@ -50,7 +50,7 @@ class Docentes {
           rs.getString("vr_doc_celular"),
           rs.getString("vr_doc_nombre"),
           rs.getString("vr_doc_apellido"),
-            rs.getString("vr_cur_nombre")
+           rs.getInt("cantidad_cursos")
         )
         docentes = docentes :+ docente
       }
@@ -93,7 +93,7 @@ class Docentes {
       fila.getString("vr_doc_celular"),
       fila.getString("vr_doc_nombre"),
       fila.getString("vr_doc_apellido"),
-        fila.getString("vr_cur_nombre")
+        fila.getInt("cantidad_cursos")
     )
   }
 

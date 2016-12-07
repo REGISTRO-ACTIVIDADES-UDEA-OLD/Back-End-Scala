@@ -18,7 +18,7 @@ class DocenteController @Inject()(docenteService: DocenteService) extends Contro
       (JsPath \ "vr_doc_celular").write[String] and
       (JsPath \ "vr_doc_nombre").write[String] and
       (JsPath \ "vr_doc_apellido").write[String] and
-        (JsPath \ "vr_cur_nombre").write[String]
+        (JsPath \ "cantidad_cursos").write[Int]
     ) (unlift(Docente.unapply))
 
   implicit val profesorWrites: Writes[Profesor] = (
@@ -34,7 +34,7 @@ class DocenteController @Inject()(docenteService: DocenteService) extends Contro
       (JsPath \ "vr_doc_celular").read[String] and
       (JsPath \ "vr_doc_nombre").read[String] and
       (JsPath \ "vr_doc_apellido").read[String] and
-        (JsPath \ "vr_cur_nombre").read[String]
+        (JsPath \ "cantidad_cursos").read[Int]
     ) (Docente.apply _)
 
   implicit val profesorReads: Reads[Profesor] = (
